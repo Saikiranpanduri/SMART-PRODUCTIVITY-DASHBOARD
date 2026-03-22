@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Smart Productivity Dashboard</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/auth.js"></script>
+</head>
+<body>
+    <div class="auth-wrapper">
+        <div class="auth-card glass-panel">
+            <div class="auth-header">
+                <h1>Welcome Back</h1>
+                <p>Login to access your dashboard</p>
+            </div>
+            
+            <form id="loginForm" class="auth-form">
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" class="glass-input" placeholder="you@example.com" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="glass-input" placeholder="••••••••" required>
+                </div>
+                
+                <div id="errorMsg" class="text-error">Invalid email or password</div>
+                
+                <button type="submit" class="glass-button">Sign In</button>
+            </form>
+            
+            <div class="auth-link">
+                Don't have an account? <a href="signup.html">Sign up</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+            
+            errorMsg.style.display = 'none';
+            
+            // For a real app, this would be an API call
+            // Using localStorage for demo purposes
+            
+            // Get users from DB (localStorage)
+            const users = JSON.parse(localStorage.getItem('smart_dashboard_db_users') || '[]');
+            
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                // Remove password before storing session
+                const sessionUser = {
+                    id: user.id || Date.now().toString(),
+                    name: user.name,
+                    email: user.email
+                };
+                
+                localStorage.setItem('smart_dashboard_user', JSON.stringify(sessionUser));
+                
+                // Add button animation before redirect
+                const btn = e.target.querySelector('button');
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+                
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 800);
+            } else {
+                errorMsg.style.display = 'block';
+                // Add a small shake animation to the form
+                const card = document.querySelector('.auth-card');
+                card.style.transform = 'translate(5px, 0)';
+                setTimeout(() => card.style.transform = 'translate(-5px, 0)', 100);
+                setTimeout(() => card.style.transform = 'translate(5px, 0)', 200);
+                setTimeout(() => card.style.transform = 'translate(0, 0)', 300);
+            }
+        });
+    </script>
+</body>
+</html>

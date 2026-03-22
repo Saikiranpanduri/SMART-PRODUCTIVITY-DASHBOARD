@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks - Smart Productivity Dashboard</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .task-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .task-input-group {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .task-input-group input {
+            flex-grow: 1;
+        }
+
+        .task-list {
+            list-style: none;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .task-item:hover {
+            transform: translateX(5px);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .task-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-grow: 1;
+        }
+
+        /* Custom Checkbox */
+        .task-checkbox {
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--accent-color);
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            background: rgba(0,0,0,0.2);
+            transition: all 0.2s ease;
+        }
+
+        .task-checkbox:checked {
+            background: var(--accent-color);
+        }
+
+        .task-checkbox:checked::after {
+            content: '\\f00c';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 14px;
+        }
+
+        .task-text {
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .task-item.completed .task-text {
+            text-decoration: line-through;
+            color: var(--text-secondary);
+        }
+
+        .task-actions button {
+            background: none;
+            border: none;
+            color: var(--danger-color);
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .task-actions button:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body>
+    <script src="js/auth.js"></script>
+    <div class="app-container">
+        <!-- Sidebar injected via JS -->
+        <div id="sidebar-container"></div>
+        
+        <main class="main-content">
+            <!-- Header injected via JS -->
+            <div id="header-container"></div>
+            
+            <div class="content-area task-container">
+                <div class="glass-panel" style="padding: 32px;">
+                    <form id="taskForm" class="task-input-group">
+                        <input type="text" id="taskInput" class="glass-input" placeholder="What needs to be done?" required autocomplete="off">
+                        <button type="submit" class="glass-button">Add Task</button>
+                    </form>
+                    
+                    <ul id="taskList" class="task-list">
+                        <!-- Tasks will be injected here -->
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/ui.js"></script>
+    <script src="js/tasks.js"></script>
+</body>
+</html>
